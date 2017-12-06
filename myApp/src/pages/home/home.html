@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Inicio</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    
+  <ion-item>
+    <ion-label fixed>Ticket</ion-label>
+    <ion-input type="number" [(ngModel)]="type"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>Dar Prioridad a este ticket</ion-label>
+      <ion-checkbox color="dark" checked="false" [(ngModel)]="priority"></ion-checkbox>
+  </ion-item>
+
+  <div padding>
+    <button ion-button color="primary" (click)="addTicket()">Añadir a la lista</button>
+  </div>
+
+  <ion-card *ngFor="let ticket of listTickets">
+    <ion-card-header>
+      <ion-checkbox color="dark" checked="{{ticket?.priority}}" (clsick)="assignPriorityd(ticket)"></ion-checkbox>
+      Ticket - {{ticket?.type}} €
+      <ion-icon ios="ios-trash" md="md-trash" (click)="remove(ticket)"></ion-icon>
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-item>
+    <ion-input type="number" placeholder="Introduce la cantidad a pagar" [(ngModel)]="paymentQuantity"></ion-input>
+  </ion-item>
+
+  <div padding>
+    <button ion-button color="danger"(click)="calculatePayment()">Calcular</button>
+  </div>
+
+  <div *ngIf="calculationResult">
+    {{calculationResult}}
+  </div>
+
+</ion-content>
