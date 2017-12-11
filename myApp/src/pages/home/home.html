@@ -8,7 +8,7 @@
     
   <ion-item>
     <ion-label fixed>Ticket</ion-label>
-    <ion-input type="number" [(ngModel)]="type"></ion-input>
+    <ion-input type="number" [(ngModel)]="ticketType"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -23,7 +23,7 @@
   <ion-card *ngFor="let ticket of listTickets">
     <ion-card-header>
       <ion-checkbox color="dark" checked="{{ticket?.priority}}" (clsick)="assignPriorityd(ticket)"></ion-checkbox>
-      Ticket - {{ticket?.type}} €
+      Ticket - {{ticket?.ticketType}} €
       <ion-icon ios="ios-trash" md="md-trash" (click)="remove(ticket)"></ion-icon>
     </ion-card-header>
   </ion-card>
@@ -38,6 +38,10 @@
 
   <div *ngIf="calculationResult">
     {{calculationResult}}
+  </div>
+
+  <div *ngIf="errorMessage">
+    {{errorMessage}}
   </div>
 
 </ion-content>

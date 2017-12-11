@@ -1,6 +1,6 @@
 export class Ticket {
     name:string;
-    type: number;
+    ticketType: number;
     quantity: number;
     priority:boolean;
   }

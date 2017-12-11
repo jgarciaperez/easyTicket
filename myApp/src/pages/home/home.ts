@@ -8,7 +8,7 @@ import { Ticket } from './ticket.model';
 })
 export class HomePage {
 
-  type:number;
+  ticketType:number;
   quantity:number;
   priority:boolean = false;
   paymentReturn:boolean = true;
@@ -18,8 +18,10 @@ export class HomePage {
   advancedPayment:boolean = false;
 
   listTickets:Array<Ticket> = [];
+  tableSolutions: any[] = [];
 
   calculationResult:any;
+  errorMessage: string;
 
   constructor(public navCtrl: NavController) {}
 
@@ -27,18 +29,16 @@ export class HomePage {
     if(this.fastPaypment && this.listTickets.length > 0){
 
       if(this.listTickets.length > 1){
-
-        this.listTickets.forEach(element => {
-          
-        });
+        
 
       }else{
-        let resto = this.paymentQuantity % this.listTickets[0].type;
 
-        this.calculationResult = 'Tendrás que abonar ' + Math.trunc(this.paymentQuantity / this.listTickets[0].type) + ' Tickets de '+ this.listTickets[0].type + '€';
+        let remainder = Math.round((this.paymentQuantity % this.listTickets[0].ticketType) * 100) / 100;
 
-        if(resto != 0){
-          this.calculationResult = this.calculationResult + ' y ' + resto + '€ en monedas.';
+        this.calculationResult = 'Tendrás que abonar ' + Math.trunc(this.paymentQuantity / this.listTickets[0].ticketType) + ' Tickets de '+ this.listTickets[0].ticketType + '€';
+
+        if(remainder != 0){
+          this.calculationResult = this.calculationResult + ' y ' + remainder + '€ en monedas.';
         }
         
       }
@@ -48,24 +48,44 @@ export class HomePage {
   }
 
   addTicket(){
-    if(this.type){
+    this.errorMessage = '';
+    if(this.ticketType){
 
       let item:Ticket = {
-        type:this.type,
+        ticketType:this.ticketType,
         quantity:null,
         priority:this.priority,
         name:'Ticket'
       }
-
-      this.listTickets.push(item);
+      let ticketExists = this.checkIfTicketExists(item.ticketType);
+      if(!ticketExists){
+        this.listTickets.push(item);
+      } else {
+        this.errorMessage = "Error: Ticket ya existe";
+      }
+      
       this.cleanInputs();
     }    
 
     
   }
 
+  checkIfTicketExists(ticketType: number): boolean{
+    let ticketFound = false;
+
+    this.listTickets.forEach(
+      (element: Ticket) => {
+        if(element.ticketType == ticketType){
+          ticketFound = true;
+        }
+      }
+    );
+
+    return ticketFound;
+  }
+
   cleanInputs(){
-    this.type = null;
+    this.ticketType = null;
     this.quantity = null;
     this.priority = false;
   }
