@@ -22,7 +22,7 @@
 
   <ion-card *ngFor="let ticket of listTickets">
     <ion-card-header>
-      <ion-checkbox color="dark" checked="{{ticket?.priority}}" (clsick)="assignPriorityd(ticket)"></ion-checkbox>
+      <ion-checkbox color="dark" checked="{{ticket?.priority}}" (click)="assignPriority(ticket)"></ion-checkbox>
       Ticket - {{ticket?.ticketType}} €
       <ion-icon ios="ios-trash" md="md-trash" (click)="remove(ticket)"></ion-icon>
     </ion-card-header>
@@ -36,9 +36,7 @@
     <button ion-button color="danger"(click)="calculatePayment()">Calcular</button>
   </div>
 
-  <div *ngIf="calculationResult">
-    {{calculationResult}}
-  </div>
+  <div *ngIf="calculationResult" [innerHTML]="calculationResult"></div>
 
   <div *ngIf="errorMessage">
     {{errorMessage}}
